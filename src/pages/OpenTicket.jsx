@@ -39,13 +39,11 @@ function OpenTicket() {
 
 
     return (
-        <Box maxW="md" borderWidth="1px" borderRadius="lg" p="6" overflow="hidden">
+        <Box w="100%" maxW="1000px" borderWidth="1px" borderRadius="lg" p="6" overflow="hidden">
             <Text fontSize="2xl">Abertura de chamado técnico</Text>
-
             <Divider my="4" />
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl isInvalid={errors.title} mb="4">
+            <form style={{display: 'flex', flexWrap: "wrap", gap: "10px"}} onSubmit={handleSubmit(onSubmit)}>
+                <FormControl w="45%" isInvalid={errors.title} mb="4">
                     <FormLabel htmlFor="title">Título do chamado</FormLabel>
                     <Input
                         id="title"
@@ -58,7 +56,7 @@ function OpenTicket() {
                     </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={errors.name} mb="4">
+                <FormControl w="45%" isInvalid={errors.name} mb="4">
                     <FormLabel htmlFor="name">Nome do solicitante</FormLabel>
                     <Input
                         id="name"
@@ -71,7 +69,7 @@ function OpenTicket() {
                     </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={errors.email} mb="4">
+                <FormControl w="45%" isInvalid={errors.email} mb="4">
                     <FormLabel htmlFor="email">E-mail do solicitante</FormLabel>
                     <Input
                         id="email"
@@ -85,7 +83,7 @@ function OpenTicket() {
                     </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={errors.phone} mb="4">
+                <FormControl w="45%" isInvalid={errors.phone} mb="4">
                     <FormLabel htmlFor="phone">Telefone do solicitante</FormLabel>
                     <Input
                         id="phone"
@@ -98,7 +96,7 @@ function OpenTicket() {
                     </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={errors.description} mb="4">
+                <FormControl w="45%" isInvalid={errors.description} mb="4">
                     <FormLabel htmlFor="description">Descrição</FormLabel>
                     <Textarea
                         id="description"
@@ -110,7 +108,7 @@ function OpenTicket() {
                         {errors.description && errors.description.message}
                     </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errors.file} mb="4">
+                <FormControl w="45%" isInvalid={errors.file} mb="4">
                     <FormLabel htmlFor="file">Anexar arquivos</FormLabel>
                     <InputGroup>
                         <Input
