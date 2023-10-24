@@ -34,9 +34,9 @@ const Dashboard = () => {
                         <p style={{ color: "white" }}>Olá</p>
                     }
                     <Divider my="4" />
-                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to="/dashboard/open-ticket"><FontAwesomeIcon icon={faPlus} /> Abrir Chamado</Link>
-                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to="/dashboard/estatistics"><FontAwesomeIcon icon={faTableList} /> Meus Chamados</Link>
-                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to="/dashboard/users"><FontAwesomeIcon icon={faUser} /> Usuarios</Link>
+                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to={`${import.meta.env.VITE_REACT_APP_PATH}/dashboard/open-ticket`}><FontAwesomeIcon icon={faPlus} /> Abrir Chamado</Link>
+                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to={`${import.meta.env.VITE_REACT_APP_PATH}/dashboard/estatistics`}><FontAwesomeIcon icon={faTableList} /> Meus Chamados</Link>
+                    <Link style={{ color: 'white', marginBottom: '5px', display: 'block' }} to={`${import.meta.env.VITE_REACT_APP_PATH}/dashboard/users`}><FontAwesomeIcon icon={faUser} /> Usuarios</Link>
 
                 </Box>
                 <Spacer />

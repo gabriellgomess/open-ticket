@@ -21,7 +21,7 @@ function Home(){
       if(isAuth)
       {
           // Navigate to Dashboard
-          navigate(`${import.meta.env.VITE_REACT_APP_PATH}dashboard`);
+          navigate(`${import.meta.env.VITE_REACT_APP_PATH}/dashboard`);
       }
     }, [isAuth, navigate]);
 

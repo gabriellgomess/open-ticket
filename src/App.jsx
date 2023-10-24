@@ -24,7 +24,7 @@ const App = () => {
           <Routes>
             <Route path={`${import.meta.env.VITE_REACT_APP_PATH}`} element={<Home />} />
             <Route
-              path={`${import.meta.env.VITE_REACT_APP_PATH}dashboard/*`}
+              path={`${import.meta.env.VITE_REACT_APP_PATH}/dashboard/*`}
               element={
                 <WithAuthentication>
                   <Dashboard />
