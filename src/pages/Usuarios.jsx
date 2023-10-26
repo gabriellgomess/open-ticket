@@ -47,7 +47,7 @@ export default function Usuarios() {
     };
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_URL}/api/create-users`, sendData);
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_URL}/lrv-chamados-api/public/api/register`, sendData);
       setFeedback({ status: 'success', message: response.data.message });
     } catch (error) {
       setFeedback({ status: 'error', message: 'Error creating user.' });

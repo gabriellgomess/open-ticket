@@ -65,7 +65,7 @@ function Register() {
   return (
     <Card w="500px">
       <CardBody>
-        <Heading as='h3' size='lg' mb={4}>          
+        <Heading as='h3' size='lg' mb={4}>
           Cadastro de usuário
         </Heading>
         <form onSubmit={submitForm} noValidate>
@@ -79,9 +79,9 @@ function Register() {
             </Button>
           </Box>
         </form>
-        
-          <Button w="100%" mt="10px" onClick={toggleNav}>Entrar</Button>
-        
+
+        <Button w="100%" mt="10px" onClick={toggleNav}>Entrar</Button>
+
       </CardBody>
     </Card>
   );
