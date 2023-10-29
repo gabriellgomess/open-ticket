@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     Box,
     Text,
@@ -14,36 +14,79 @@ import {
     useToast,
     List,
     ListItem,
+    Tag, TagLabel, TagCloseButton 
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { MyContext } from '../contexts/MyContext';
+import axios from "axios";
 
 function OpenTicket() {
+    const { rootState, logoutUser } = useContext(MyContext);
+    const { isAuth, theUser } = rootState;
     const {
         handleSubmit,
         register,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const removeFile = (indexToRemove) => {
+        setSelectedFiles((prevFiles) => prevFiles.filter((_, idx) => idx !== indexToRemove));
     };
+
+    const onSubmit = async (values) => {
+        const formData = new FormData();
+    
+        // Anexar campos do chamado
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+    
+        // Se houver arquivos selecionados, adicione-os ao formData
+        if (selectedFiles.length) { // Mudando de values.file para selectedFiles
+            selectedFiles.forEach(file => {
+                formData.append('files[]', file);
+            });
+        }
+    
+        // Anexar informações do usuário
+        formData.append('user_id', theUser.id);
+        formData.append('email', theUser.email);
+        formData.append('department_id', theUser.department_id);
+        formData.append('status', 'aberto');
+    
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_REACT_APP_URL}/lrv-chamados-api/public/api/chamados`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+    
+            if (response.data.success) {
+                // Handle success
+            }
+        } catch (error) {
+            // Handle error
+        }       
+            
+    };
+    
 
     const [selectedFiles, setSelectedFiles] = useState([]);
 
     const handleFileChange = (event) => {
         const files = event.target.files;
         if (files.length) {
-            setSelectedFiles(Array.from(files).map(file => file.name));
+            setSelectedFiles(Array.from(files)); // Armazenando os objetos File diretamente
         }
     };
+    
 
 
     return (
-        <Box w="100%" maxW="1000px" borderWidth="1px" borderRadius="lg" p="6" overflow="hidden">
-            <Text fontSize="2xl">Abertura de chamado técnico</Text>
+        <Box w="100%" maxW="500px" borderWidth="1px" borderRadius="lg" p="6" overflow="hidden">
+            <Text fontSize="2xl">Abertura de chamado</Text>
             <Divider my="4" />
-            <form style={{display: 'flex', flexWrap: "wrap", gap: "10px"}} onSubmit={handleSubmit(onSubmit)}>
-                <FormControl w="45%" isInvalid={errors.title} mb="4">
+            <form style={{display: 'flex', flexDirection: 'column', gap: "10px"}} onSubmit={handleSubmit(onSubmit)}>
+                <FormControl w="100%" isInvalid={errors.title} mb="4">
                     <FormLabel htmlFor="title">Título do chamado</FormLabel>
                     <Input
                         id="title"
@@ -54,49 +97,9 @@ function OpenTicket() {
                     <FormErrorMessage>
                         {errors.title && errors.title.message}
                     </FormErrorMessage>
-                </FormControl>
+                </FormControl>                
 
-                <FormControl w="45%" isInvalid={errors.name} mb="4">
-                    <FormLabel htmlFor="name">Nome do solicitante</FormLabel>
-                    <Input
-                        id="name"
-                        {...register("name", {
-                            required: "Este campo é obrigatório",
-                        })}
-                    />
-                    <FormErrorMessage>
-                        {errors.name && errors.name.message}
-                    </FormErrorMessage>
-                </FormControl>
-
-                <FormControl w="45%" isInvalid={errors.email} mb="4">
-                    <FormLabel htmlFor="email">E-mail do solicitante</FormLabel>
-                    <Input
-                        id="email"
-                        type="email"
-                        {...register("email", {
-                            required: "Este campo é obrigatório",
-                        })}
-                    />
-                    <FormErrorMessage>
-                        {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                </FormControl>
-
-                <FormControl w="45%" isInvalid={errors.phone} mb="4">
-                    <FormLabel htmlFor="phone">Telefone do solicitante</FormLabel>
-                    <Input
-                        id="phone"
-                        {...register("phone", {
-                            required: "Este campo é obrigatório",
-                        })}
-                    />
-                    <FormErrorMessage>
-                        {errors.phone && errors.phone.message}
-                    </FormErrorMessage>
-                </FormControl>
-
-                <FormControl w="45%" isInvalid={errors.description} mb="4">
+                <FormControl w="100%" isInvalid={errors.description} mb="4">
                     <FormLabel htmlFor="description">Descrição</FormLabel>
                     <Textarea
                         id="description"
@@ -108,7 +111,7 @@ function OpenTicket() {
                         {errors.description && errors.description.message}
                     </FormErrorMessage>
                 </FormControl>
-                <FormControl w="45%" isInvalid={errors.file} mb="4">
+                <FormControl w="100%" isInvalid={errors.file} mb="4">
                     <FormLabel htmlFor="file">Anexar arquivos</FormLabel>
                     <InputGroup>
                         <Input
@@ -134,12 +137,16 @@ function OpenTicket() {
                         </InputRightAddon>
                     </InputGroup>
                     {selectedFiles.length > 0 && (
-                        <List mt={2} spacing={1}>
-                            {selectedFiles.map((fileName, idx) => (
-                                <ListItem key={idx}>{fileName}</ListItem>
-                            ))}
-                        </List>
-                    )}
+                    <Box mt={2} display="flex" flexWrap="wrap" gap="2">
+                        {selectedFiles.map((file, idx) => (
+                            <Tag key={idx} borderRadius="full" variant="solid" colorScheme="blue" size="md">
+                                <TagLabel>{file.name}</TagLabel>
+                                <TagCloseButton onClick={() => removeFile(idx)} />
+                            </Tag>
+                        ))}
+                    </Box>
+                )}
+
                     <FormErrorMessage>
                         {errors.file && errors.file.message}
                     </FormErrorMessage>

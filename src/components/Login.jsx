@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { MyContext } from "../contexts/MyContext";
 import { Card, CardBody, Box, Input, InputGroup, InputRightElement, Button, useToast, Heading } from '@chakra-ui/react'
 
@@ -33,37 +33,43 @@ function Login() {
   const submitForm = async (event) => {
     event.preventDefault();
     const data = await loginUser(state.userInfo);
-    if (data.success && data.token) {
-      setState({
-        ...initialState,
-      });
-      localStorage.setItem("loginToken", data.token);
-      await isLoggedIn();
+    if (data.success) {
+        setState({
+            ...initialState,
+        });
+        toast({
+            title: "Logged in successfully",
+            status: "success",
+            isClosable: true,
+        });
     } else {
-      setState({
-        ...state,
-        successMsg: "",
-        errorMsg: data.message,
-      });
+        setState({
+            ...state,
+            successMsg: "",
+            errorMsg: data.message,
+        });
     }
-  };
+};
   
 
+useEffect(() => {
   if (state.errorMsg) {
-
-    toast({
-      title: state.errorMsg,
-      status: "error",
-      isClosable: true,
-    });
+      toast({
+          title: state.errorMsg,
+          status: "error",
+          isClosable: true,
+      });
+      setState({ ...state, errorMsg: "" });
   }
   if (state.successMsg) {
-    toast({
-      title: state.successMsg,
-      status: "success",
-      isClosable: true,
-    });
+      toast({
+          title: state.successMsg,
+          status: "success",
+          isClosable: true,
+      });
+      setState({ ...state, successMsg: "" });
   }
+}, [state]);
 
   return (
     <Card w="500px">
@@ -92,9 +98,9 @@ function Login() {
             <Button type="submit" colorScheme='teal' size='md'>
               Entrar
             </Button>
-            <Button onClick={toggleNav}>
+            {/* <Button onClick={toggleNav}>
             Cadastrar
-          </Button>
+          </Button> */}
           </Box>
         </form>
       </CardBody>

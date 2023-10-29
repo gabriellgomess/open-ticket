@@ -7,14 +7,18 @@ import {
   Input,
   VStack,
   Alert,
-  AlertIcon
+  AlertIcon,
+  Switch,
+  Select
 } from '@chakra-ui/react';
 import axios from 'axios';
+import areas from '../utils/areas.json'
 
 export default function Usuarios() {
   const [formData, setFormData] = useState({
     name: '',
     password: '',
+    password_confirmation: "",
     phone: '',
     email: '',
     department_id: '',
@@ -25,17 +29,14 @@ export default function Usuarios() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let finalValue;
-  
+
     if (name === 'is_admin') {
-      finalValue = value === "1";
-    } else if (['access_level', 'department_id'].includes(name)) {
-      finalValue = parseInt(value, 10);
+      setFormData((prevData) => ({ ...prevData, is_admin: value === "1" }));
+    } else if (['access_level'].includes(name)) {
+      setFormData((prevData) => ({ ...prevData, [name]: parseInt(value, 10) || "" }));
     } else {
-      finalValue = value;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
-  
-    setFormData((prevData) => ({ ...prevData, [name]: finalValue }));
   };
 
   const handleSubmit = async (e) => {
@@ -43,7 +44,8 @@ export default function Usuarios() {
 
     const sendData = {
       ...formData,
-      is_admin: formData.is_admin ? 1 : 0
+      is_admin: formData.is_admin ? 1 : 0,
+      access_level: parseInt(formData.access_level, 10)
     };
 
     try {
@@ -54,7 +56,7 @@ export default function Usuarios() {
       console.error('Error creating user:', error);
     }
   };
-
+  
   return (
     <Box width="400px" p={4} boxShadow="lg">
       {feedback.status && (
@@ -70,7 +72,11 @@ export default function Usuarios() {
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
-          <Input type="password" name="password" onChange={handleChange} />
+          <Input type="password" name="password" onChange={handleChange} autocomplete="off" />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Confirm Password</FormLabel>
+          <Input type="password" name="password_confirmation" onChange={handleChange} autocomplete="off" />
         </FormControl>
         <FormControl>
           <FormLabel>Phone</FormLabel>
@@ -78,15 +84,30 @@ export default function Usuarios() {
         </FormControl>
         <FormControl>
           <FormLabel>Email</FormLabel>
-          <Input type="email" name="email" onChange={handleChange} />
+          <Input type="email" name="email" onChange={handleChange} autocomplete="off" />
         </FormControl>
-        <FormControl>
-          <FormLabel>Department ID</FormLabel>
-          <Input type="number" name="department_id" onChange={handleChange} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Is Admin?</FormLabel>
-          <Input type="checkbox" name="is_admin" onChange={e => handleChange({ target: { name: e.target.name, value: e.target.checked ? "1" : "0" } })} />
+        <Select name="department_id" id='department_id' onChange={handleChange}>
+          {areas.map((area) => (
+            <option key={area.id} value={area.nome}>
+              {area.nome}
+            </option>
+          ))}
+        </Select> 
+        <FormControl display='flex' alignItems='center'>
+            <FormLabel htmlFor='isAdmin' mb='0'>
+                Is Admin?
+            </FormLabel>
+            <Switch 
+                id='is_admin'
+                name="is_admin"
+                isChecked={formData.is_admin}
+                onChange={e => handleChange({ 
+                    target: { 
+                        name: e.target.name, 
+                        value: e.target.checked ? "1" : "0" 
+                    } 
+                })}
+            />
         </FormControl>
         <FormControl>
           <FormLabel>Access Level</FormLabel>

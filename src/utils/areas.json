@@ -1,0 +1,23 @@
+[
+    { "id": 1, "nome": "Vendas" },
+    { "id": 2, "nome": "Marketing" },
+    { "id": 3, "nome": "Finanças" },
+    { "id": 4, "nome": "Recursos Humanos" },
+    { "id": 5, "nome": "Tecnologia da Informação" },
+    { "id": 6, "nome": "Logística" },
+    { "id": 7, "nome": "Produção" },
+    { "id": 8, "nome": "Pesquisa e Desenvolvimento" },
+    { "id": 9, "nome": "Atendimento ao Cliente" },
+    { "id": 10, "nome": "Compras" },
+    { "id": 11, "nome": "Qualidade" },
+    { "id": 12, "nome": "Jurídico" },
+    { "id": 13, "nome": "Administração" },
+    { "id": 14, "nome": "Engenharia" },
+    { "id": 15, "nome": "Design" },
+    { "id": 16, "nome": "Recursos Humanos" },
+    { "id": 17, "nome": "Educação e Treinamento" },
+    { "id": 18, "nome": "Consultoria" },
+    { "id": 19, "nome": "Saúde e Segurança" },
+    { "id": 20, "nome": "Gestão de Projetos" }
+  ]
+  
